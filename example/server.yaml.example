@@ -1,0 +1,45 @@
+# RawVelo — Server Configuration
+role: "server"
+
+log:
+  level: "info"
+
+listen:
+  addr: ":8443"
+
+network:
+  interface: "eth0"
+  ipv4:
+    addr: "YOUR_SERVER_IP:8443"
+    router_mac: "YOUR_GATEWAY_MAC"
+  tcp:
+    local_flag: ["PA"]
+    remote_flag: ["PA"]
+  pcap:
+    sockbuf: 134217728  # 128 MB
+
+transport:
+  protocol: "kcp"
+  conn: 3
+  kcp:
+    mode: "fast3"       # normal/fast/fast2/fast3/extreme/manual
+    mtu: 1350
+    rcvwnd: 4096
+    sndwnd: 4096
+    dshard: 10
+    pshard: 3
+    block: "aes"
+    key: "YOUR_KEY_HERE"
+    smuxbuf: 16777216   # 16 MB
+    streambuf: 8388608  # 8 MB
+    smuxkalive: 5
+    smuxktimeout: 15
+
+# obfuscation — مخفی کردن ترافیک از DPI
+obfs:
+  enabled: true
+  key: "YOUR_OBFS_KEY_HERE"  # جدا از encryption key
+  padding: true              # random packet padding
+  jitter: false              # timing jitter (کمی latency اضافه میکنه)
+  camouflage: false          # TLS camouflage (برای شبکه‌های خیلی محدود)
+  adaptive_fec: true         # FEC خودکار بر اساس loss
